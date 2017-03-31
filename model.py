@@ -3,7 +3,6 @@ from keras.models import Sequential
 from keras.layers import Lambda, Conv2D, MaxPooling2D, Dropout, Flatten, Dense, BatchNormalization, Cropping2D
 from keras.callbacks import TensorBoard, ProgbarLogger
 from keras import activations
-from keras import initializers
 
 data_name = 'data-good'
 dropout_rate = 0.2
@@ -12,21 +11,20 @@ num_epoch = 4
 train_generator, num_train, valid_generator, num_valid = read_data_generator('./' + data_name, header=False)
 
 activation = activations.elu
-initializer = initializers.TruncatedNormal(mean=0.01, stddev=0.05, seed=None)
 
 model = Sequential()
 model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(160, 320, 3)))
 model.add(Cropping2D(((44, 20), (0, 0))))
-model.add(Conv2D(16, (1, 1), padding='same', activation=activation, kernel_initializer=initializer))
-model.add(Conv2D(64, (5, 5), padding='same', activation=activation, kernel_initializer=initializer))
+model.add(Conv2D(16, (1, 1), padding='same', activation=activation, kernel_initializer='glorot_normal'))
+model.add(Conv2D(64, (5, 5), padding='same', activation=activation, kernel_initializer='glorot_normal'))
 model.add(MaxPooling2D())
-model.add(Conv2D(64, (5, 5), padding='same', activation=activation, kernel_initializer=initializer))
+model.add(Conv2D(64, (5, 5), padding='same', activation=activation, kernel_initializer='glorot_normal'))
 model.add(MaxPooling2D())
-model.add(Conv2D(64, (5, 5), padding='same', activation=activation, kernel_initializer=initializer))
+model.add(Conv2D(64, (5, 5), padding='same', activation=activation, kernel_initializer='glorot_normal'))
 model.add(MaxPooling2D())
-model.add(Conv2D(128, (3, 3), padding='same', activation=activation, kernel_initializer=initializer))
+model.add(Conv2D(128, (3, 3), padding='same', activation=activation, kernel_initializer='glorot_normal'))
 model.add(MaxPooling2D())
-model.add(Conv2D(128, (3, 3), padding='same', activation=activation, kernel_initializer=initializer))
+model.add(Conv2D(128, (3, 3), padding='same', activation=activation, kernel_initializer='glorot_normal'))
 model.add(MaxPooling2D())
 model.add(Dropout(dropout_rate))
 model.add(Flatten())
